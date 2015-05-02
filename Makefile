@@ -6,7 +6,7 @@
 #    By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/05/02 13:27:34 by jaguillo          #+#    #+#              #
-#    Updated: 2015/05/02 14:38:44 by jaguillo         ###   ########.fr        #
+#    Updated: 2015/05/02 15:21:37 by jaguillo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,26 +30,24 @@ $(O_DIR)/%.o: $(C_DIR)/%.c $(O_DIR)
 	clang $(C_FLAGS) -o $@ -c $<
 
 libft/libft.a:
-	@make -C libft
+	make -C libft
 
-libglfw:
-	@git submodule add https://github.com/glfw/glfw.git $@
-	@git submodule update $@
-
-libglfw/Makefile: libglfw
-	@cd $< ; cmake .
+libglfw/Makefile:
+	git submodule init libglfw
+	git submodule update libglfw
+	cd libglfw ; cmake .
 
 libglfw/src/libglfw3.a: libglfw/Makefile
-	@make -C libglfw
+	make -C libglfw
 
 $(O_DIR):
-	@mkdir -p $@ 2> /dev/null || true
+	mkdir -p $@ 2> /dev/null || true
 
 clean:
-	@rm -rf $(O_FILES)
+	rm -rf $(O_FILES)
 
 fclean: clean
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
